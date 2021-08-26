@@ -1,41 +1,43 @@
 # RulingBR
-Contains decisions from Supremo Tribunal Federal. The objective is to provide a dataset for summarization in Portuguese.
-
-# Description
+This dataset contains decisions from Supremo Tribunal Federal in Portuguese.
 These decisions were downloaded and parsed from https://www.stf.jus.br/. They are from the years 2011 to 2018.
 
 ## Using
 Extract:
 
-    !tar xJvf rulingbr-v1.2.tar.xz
+```bash
+!tar xJvf rulingbr-v1.2.tar.xz
+```
 
 Load (Python):
 
-    docs = []
-    with open('rulingbr-v1.2.jsonl') as f:
-      for line in f:
-        obj = json.loads(line)
-        docs.append(obj)
+```python
+docs = []
+with open('rulingbr-v1.2.jsonl') as f:
+  for line in f:
+    obj = json.loads(line)
+    docs.append(obj)
+
+obj = docs[0]
+print('{}: {}'.format(obj['relator'], obj['ementa'][:52]))
+```
     
-    obj = docs[0]
-    print('{}: {}'.format(obj['relator'], obj['ementa'][:52]))
-    
-# Structure
+## Structure
 For ease parsing of the file, each line contains a complete JSON object divided into 4 sections: "ementa", "acordao", "relatorio", "voto", "area", "relator", "classe", "extrato".
 
-## Ementa
+### Ementa
 Ground-truth summary from another sections.
 
-## Relatorio
+### Relatorio
 General description about the case. 
 
-## Voto
+### Voto
 Judge vote(s). It contains one or more votes from the judges. This document presents the critical aspects considered for the decision.
 
-## Acordao
-Final decision. Just the compilation of the votes.
+### Acordao
+This is the final decision. It is the compilation of the votes.
 
-## Area
+### Area
 Broad topic about the decision. Main areas:
 
 - direito administrativo
@@ -56,10 +58,10 @@ Broad topic about the decision. Main areas:
 - direito tributário
 - direito urbanístico
 
-## Classe
+### Classe
 It is the specific juridic instrument. It can be one of the following. They may also be combined. 
 
-### Incidentais
+#### Incidentais
 - ação cautelar
 - ação cautelar incidental
 - agravo de instrumento
@@ -69,7 +71,7 @@ It is the specific juridic instrument. It can be one of the following. They may 
 - embargos infringentes
 - questão de ordem
 
-### Ações Autônomas
+#### Ações Autônomas
 - ação direta de inconstitucionalidade
 - ação declaratória de constitucionalidade
 - ação civil pública
@@ -91,12 +93,12 @@ It is the specific juridic instrument. It can be one of the following. They may 
 - queixa-crime
 - pedido de extradição
 
- Recursos
+ #### Recursos
 - recurso ordinário
 - recurso de agravo
 - recurso em sentido estrito
 
-## Relator
+### Relator
 The name of the judge responsible for composing the report and the first vote of the decision. 
 
 - alexandre de moraes
@@ -119,10 +121,24 @@ The name of the judge responsible for composing the report and the first vote of
 - teori zavascki
 
 
-# Extrato
+## Extrato
 Additional information. This section is missing in near 50% of the cases.
 
-# Versions
+## Versions
 - 1.0 - Original work presented at PROPOR 2018 Conference
 - 1.1 - Manual corrections on ementa section. Split test/train/validation
 - 1.2 - Deduplication with removal of 49 near identical samples. Created new sections "relator", "classe", "area", "extrato". It can now be used for categorization tasks.
+
+## Citation
+
+```bibtex
+@inproceedings{feijo2018rulingbr,
+    title={Rulingbr: A summarization dataset for legal texts},
+    author={de Vargas Feij{\'o}, Diego and Moreira, Viviane Pereira},
+    booktitle={International Conference on Computational Processing of the Portuguese Language},
+    pages={255--264},
+    year={2018},
+    organization={Springer},
+    url={https://link.springer.com/chapter/10.1007/978-3-319-99722-3_26}
+}
+```
